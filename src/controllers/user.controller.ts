@@ -4,10 +4,12 @@ import { UserRepository } from "../repositories/user_repo";
 import { asyncHandler } from "../middleware/async.middleware";
 import { ApiResponse } from "../lib/utils/response";
 import { NotFoundError, ValidationError } from "../lib/utils/errors";
+import { AuthService } from "../services/auth.service";
 
 const userRepo = new UserRepository(prisma);
 
 export class UserController {
+
   users = asyncHandler(async (req: Request, res: Response) => {
     const users = await userRepo.findAll();
     return ApiResponse.success(res, users);
