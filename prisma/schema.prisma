@@ -14,21 +14,68 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
+  id    String     @id @default(uuid())
+  supabase_id String?
+  firstname String
+  lastname String
+  address String
   email String  @unique
-  name  String?
-  posts Post[]
+  bookings Booking[]
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 
   @@map("users")
 }
 
-model Post {
-  id        Int     @id @default(autoincrement())
-  title     String
-  content   String? @db.Text
-  published Boolean @default(false)
-  author    User    @relation(fields: [authorId], references: [id])
-  authorId  Int
+model Event {
+  id String @id @default(uuid())
+  title String
+  description String?
+  location String?
+  capacity Int
+  tickets TicketType[]
+  bookings Booking[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  @@map("posts")
+  @@map("events")
+}
+
+model TicketType{
+  id String @id @default(uuid())
+  eventId String
+  event Event @relation(fields: [eventId], references: [id])
+  name String
+  price Float
+  quantity Int
+  sold Int
+  bookings Booking[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("ticket_types")
+}
+
+model Booking {
+  id String @id @default(uuid())
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  
+  ticketTypeId String
+  ticketType TicketType @relation(fields: [ticketTypeId],references: [id])
+  
+  eventId String
+  event Event @relation(fields: [eventId] , references: [id])
+  
+  status BookingStatus @default(PENDING)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("bookings")
+}
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
 }

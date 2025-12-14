@@ -13,16 +13,10 @@ const UserType: GraphQLObjectType = new GraphQLObjectType({
   fields: () => ({
     id: { type: new GraphQLNonNull(GraphQLInt) },
     email: { type: new GraphQLNonNull(GraphQLString) },
-    name: { type: new GraphQLNonNull(GraphQLString) },
+    name: { type: GraphQLString },
     posts: {
       type: new GraphQLList(PostType),
-      resolve: async (parent) => {
-        return await prisma.post.findMany({
-          where: {
-            id: parent.id,
-          },
-        });
-      },
+      resolve: (parent) => parent.posts
     },
   }),
 });

@@ -4,24 +4,21 @@ import { UserRepository } from "../repositories/user_repo";
 import { asyncHandler } from "../middleware/async.middleware";
 import { ApiResponse } from "../lib/utils/response";
 import { NotFoundError, ValidationError } from "../lib/utils/errors";
-import { AuthService } from "../services/auth.service";
+import { User } from "../../generated/prisma/client";
+import { supabase } from "../lib/supabase";
 
 const userRepo = new UserRepository(prisma);
 
 export class UserController {
 
-  users = asyncHandler(async (req: Request, res: Response) => {
-    const users = await userRepo.findAll();
-    return ApiResponse.success(res, users);
+  profile = asyncHandler(async (req: Request, res: Response) => {
+    const user = await supabase.auth.getUser();
+    return ApiResponse.success(res, user);
   });
 
   findUserById = async(req: Request, res: Response,next: NextFunction) => {
       try {
-        const id = parseInt(req.params.id);
-
-        if (isNaN(id)) { 
-          throw new ValidationError('Invalid ID')
-        }
+        const id = req.params.id as string
 
         const user = await userRepo.findById(id);
 
@@ -33,4 +30,10 @@ export class UserController {
         next(error);
       }
   };
+
+  register = asyncHandler(async (req: Request, res: Response) => {
+    const user: User = req.body
+
+    return await prisma.user.create({data: user})
+  });
 }

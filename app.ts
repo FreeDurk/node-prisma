@@ -7,7 +7,6 @@ import authRoute from "./src/routes/auth.route";
 import { requireAuth } from "./src/middleware/require.auth.middleware";
 import { createHandler } from "graphql-http/lib/use/express";
 import schema from "./src/graphql/schema.graph";
-import resolver from "./src/graphql/resolver.graph";
 
 const app = express();
 
@@ -19,7 +18,7 @@ declare global {
   }
 }
 // GraphQL
-app.use("/graphql", createHandler({ schema: schema, rootValue:resolver }));
+app.use("/graphql", requireAuth ,createHandler({ schema: schema}));
 
 app.use(express.json());
 app.use(bodyParser.json());

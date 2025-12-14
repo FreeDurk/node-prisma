@@ -1,4 +1,5 @@
 import {
+  AuthError,
   AuthResponse,
   AuthTokenResponsePassword,
   SignInWithPasswordCredentials,
@@ -15,5 +16,9 @@ export class AuthService {
     params: SignInWithPasswordCredentials
   ): Promise<AuthTokenResponsePassword> {
     return await supabase.auth.signInWithPassword(params);
+  }
+
+  async singOut(): Promise<any> { 
+    return await supabase.auth.signOut();
   }
 }

@@ -1,5 +1,4 @@
 import { PrismaClient, User } from "../../generated/prisma/client";
-import { BaseRepository } from "./base_repo";
 
 export class UserRepository  { 
     constructor(private prisma: PrismaClient) { }
@@ -8,7 +7,7 @@ export class UserRepository  {
         return this.prisma.user.findMany();
     }
 
-    async findById(id: number ): Promise<User | null> {
+    async findById(id: string ): Promise<User | null> {
         return this.prisma.user.findUnique({ where: {id} })
     }
 
@@ -16,11 +15,11 @@ export class UserRepository  {
         return this.prisma.user.create(data);
     }
 
-    async update(id: number, data: any): Promise<User> { 
+    async update(id: string, data: any): Promise<User> { 
         return this.prisma.user.update({ where: {id}, data })
     }
 
-    async delete(id: number): Promise<User> { 
+    async delete(id: string): Promise<User> { 
         return this.prisma.user.delete({ where: {id} })
     }
 

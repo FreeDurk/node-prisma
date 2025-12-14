@@ -14,11 +14,7 @@ const PostType: GraphQLObjectType  = new GraphQLObjectType({
     updatedAt: { type: new GraphQLNonNull(GraphQLString) },
     author: {
       type: UserType,
-      resolve: async (parent) => {
-        return await prisma.user.findUnique({
-          where: { id: parent.authorId }
-        });
-      }
+      resolve: (parent) => parent.author
     }
   })
 });

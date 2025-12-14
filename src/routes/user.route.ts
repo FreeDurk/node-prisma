@@ -5,7 +5,7 @@ const userRoute = Router();
 
 const userController = new UserController();
 
-userRoute.get('/users', userController.users);
+userRoute.get('/users/profile', userController.profile);
 userRoute.get('/users/:id', userController.findUserById);
 
 export default userRoute;
