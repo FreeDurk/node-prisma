@@ -7,7 +7,6 @@ import {
 } from "graphql";
 import UserType from "./user.defs";
 import { prisma } from "../../lib/prisma";
-import PostType from "./post.defs";
 
 const QueryType: GraphQLObjectType = new GraphQLObjectType({
   name: "Query",
@@ -24,22 +23,16 @@ const QueryType: GraphQLObjectType = new GraphQLObjectType({
       resolve: async (_, { id }) => {
         return await prisma.user.findUnique({
           where: { id },
-          include: { posts: true },
+          include: { bookings: true },
         });
       },
     },
     users: {
       type: new GraphQLList(UserType),
       resolve: async () => {
-          return await prisma.user.findMany({ include: {posts : true} });
+          return await prisma.user.findMany({ include: {bookings : true} });
       },
       },
-      posts: {
-          type: new GraphQLList(PostType),
-          resolve: async () => { 
-              return await prisma.post.findMany({ include: {author:true} })
-          }
-      }
   },
 });
 

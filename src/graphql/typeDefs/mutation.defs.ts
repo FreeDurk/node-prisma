@@ -39,7 +39,7 @@ const MutationType = new GraphQLObjectType({
             }),
           },
           include: {
-            posts: true,
+            bookings: true,
           },
         });
       },

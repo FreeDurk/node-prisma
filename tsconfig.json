@@ -2,12 +2,21 @@
   "compilerOptions": {
     "experimentalDecorators": true, 
     "emitDecoratorMetadata": true,
-    "module": "ESNext",
-    "moduleResolution": "node",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "target": "ES2023",
     "strict": true,
     "esModuleInterop": true,
     "outDir": "./dist",
-    "rootDir": "./"
-  }
+    "rootDir": "./",
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "generated",
+    "prisma",
+    "**/*.spec.ts",
+    "**/*.test.ts"
+  ]
 }

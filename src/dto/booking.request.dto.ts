@@ -3,13 +3,13 @@ import { BookingStatus } from "../../generated/prisma/enums"
 
 export default class BookingRequestDto  { 
     @IsUUID()
-    ticketTypeId: string
+    ticketTypeId!: string
 
     @IsUUID()
-    eventId: string
+    eventId!: string
 
     @IsEnum(BookingStatus, {
         message:`status must be one of: ${Object.values(BookingStatus).join(', ')}`
     })
-    status : BookingStatus
+    status! : BookingStatus
 }

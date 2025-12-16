@@ -5,8 +5,6 @@ import {
   GraphQLObjectType,
   GraphQLString,
 } from "graphql";
-import { prisma } from "../../lib/prisma";
-import PostType from "./post.defs";
 
 const UserType: GraphQLObjectType = new GraphQLObjectType({
   name: "User",
@@ -14,10 +12,6 @@ const UserType: GraphQLObjectType = new GraphQLObjectType({
     id: { type: new GraphQLNonNull(GraphQLInt) },
     email: { type: new GraphQLNonNull(GraphQLString) },
     name: { type: GraphQLString },
-    posts: {
-      type: new GraphQLList(PostType),
-      resolve: (parent) => parent.posts
-    },
   }),
 });
 
