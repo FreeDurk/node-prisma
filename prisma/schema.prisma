@@ -15,7 +15,7 @@ datasource db {
 
 model User {
   id    String     @id @default(uuid())
-  supabase_id String?
+  supabase_id String @unique
   firstname String
   lastname String
   address String
@@ -60,7 +60,7 @@ model TicketType{
 model Booking {
   id String @id @default(uuid())
   userId String
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [supabase_id])
   
   ticketTypeId String
   ticketType TicketType @relation(fields: [ticketTypeId],references: [id])
